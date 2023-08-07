@@ -28,8 +28,13 @@ function getComputerChoice() {
 
 
 function playRound(playerChoice) {
+    const playerScoreUI = document.querySelector('.playerScoreNum');
+    const botScoreUI = document.querySelector('.botScoreNum');
+
     let computersChoice = getComputerChoice();
     let playersChoice = playerChoice;
+    let p1Score = parseInt(playerScoreUI.textContent);
+    let p2Score = parseInt(botScoreUI.textContent);
     playerGraphic.setAttribute('src', `RPS-P1-${playersChoice}.png`)
     botGraphic.setAttribute('src', `RPS-P2-${computersChoice}.png`)
     log(`Your choice: ${playersChoice}\nAI choice: ${computersChoice} `);
@@ -37,43 +42,65 @@ function playRound(playerChoice) {
         //0=player point, 1=ai point, 2=draw
         if (computersChoice === 'paper') {
             statusText.textContent = "Lose!";
-            return 1;
+            p2Score += 1;
+
         } else if (computersChoice === 'scissor') {
             statusText.textContent = "Win!";
-            return 0;
+            p1Score += 1;
         } else {
             statusText.textContent = "Draw!";
-            return 2;
         }
     }
     if (playersChoice === 'paper') {
         if (computersChoice === 'rock') {
             statusText.textContent = "Win!";
-            return 0;
+            p1Score += 1;
         } else if (computersChoice === 'scissor') {
             statusText.textContent = "Lose!";
-            return 1;
+            p2Score += 1;
         } else {
             statusText.textContent = "Draw!";
-            return 2;
         }
     }
     if (playersChoice === 'scissor') {
         if (computersChoice === 'paper') {
             statusText.textContent = "Win!";
-            return 0;
+            p1Score += 1;
         } else if (computersChoice === 'rock') {
             statusText.textContent = "Lose!";
-            return 1;
+            p2Score += 1;
         } else {
             statusText.textContent = "Draw!";
-            return 2;
+
         }
     }
-    if (playersChoice === "Invalid selection") {
-        return 3;
+    playerScoreUI.textContent = p1Score;
+    botScoreUI.textContent = p2Score;
+    if (p1Score >= 5) {
+        endGame("p1");
+    } else if (p2Score >= 5) {
+        endGame("p2");
     }
+}
 
+function endGame(winner) {
+    playerGraphic.remove();
+    botGraphic.remove();
+    statusText.classList.toggle('status');
+    statusText.classList.toggle('winnerText');
+    if (winner == "p1") {
+        statusText.textContent = `Congratulations! You Win!`;
+    } else {
+        statusText.textContent = 'Unfortunately you have lost the battle...';
+    }
+    rockChoice.remove();
+    paperChoice.remove();
+    scissorChoice.remove();
+    const restartBtn = document.createElement('button');
+    restartBtn.textContent = "Restart";
+    const buttonContainer = document.querySelector('.buttonContainer');
+    buttonContainer.appendChild(restartBtn);
+    // location.reload();
 }
 
 function playGame() {
@@ -114,10 +141,15 @@ const scissorChoice = document.querySelector('.scissorSelector');
 scissorChoice.addEventListener('click', function () {
     playRound('scissor')
 });
+//Graphics
 const statusText = document.querySelector('.status');
 
 const playerGraphic = document.querySelector('.playerChoice');
 const botGraphic = document.querySelector('.botChoice');
+
+
+const roundUI = document.querySelector('.roundText');
+
 
 
 
