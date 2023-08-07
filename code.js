@@ -28,11 +28,16 @@ function getComputerChoice() {
 
 
 function playRound(playerChoice) {
+    const roundUI = document.querySelector('.roundText');
     const playerScoreUI = document.querySelector('.playerScoreNum');
     const botScoreUI = document.querySelector('.botScoreNum');
 
+
     let computersChoice = getComputerChoice();
     let playersChoice = playerChoice;
+
+    let roundNum = parseInt(roundUI.textContent);
+    roundNum += 1;
     let p1Score = parseInt(playerScoreUI.textContent);
     let p2Score = parseInt(botScoreUI.textContent);
     playerGraphic.setAttribute('src', `RPS-P1-${playersChoice}.png`)
@@ -74,6 +79,7 @@ function playRound(playerChoice) {
 
         }
     }
+    roundUI.textContent = roundNum;
     playerScoreUI.textContent = p1Score;
     botScoreUI.textContent = p2Score;
     if (p1Score >= 5) {
@@ -100,31 +106,9 @@ function endGame(winner) {
     restartBtn.textContent = "Restart";
     const buttonContainer = document.querySelector('.buttonContainer');
     buttonContainer.appendChild(restartBtn);
-    // location.reload();
-}
-
-function playGame() {
-    let botScore = 0;
-    let playerScore = 0;
-    let numberOfGames = 0;
-    while (numberOfGames < 5) {
-        let pointChoice = playRound(numberOfGames);     //Determines who to give points to, returns 0 if player gains point, 1 if bot. Else its draw
-        if (pointChoice == 0) {
-            playerScore += 1;
-        } else if (pointChoice == 1) {
-            botScore += 1;
-        } else if (pointChoice == 3) {
-            numberOfGames -= 1;
-        }
-        numberOfGames += 1;
-    }
-    if (playerScore > botScore) {
-        log(`You Win!`);
-    } else if (playerScore < botScore) {
-        log("You Lose!");
-    }
-    else log("Looks like you tied!");
-    log(`Final Scores:\nYou: ${playerScore}\n BOT: ${botScore}`);
+    restartBtn.addEventListener('click', function () {
+        location.reload();
+    });
 }
 
 //Event Listeners
@@ -148,7 +132,7 @@ const playerGraphic = document.querySelector('.playerChoice');
 const botGraphic = document.querySelector('.botChoice');
 
 
-const roundUI = document.querySelector('.roundText');
+
 
 
 

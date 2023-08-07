@@ -136,3 +136,7 @@ button:active {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 50px;
 }
+
+.resultTextContainer {
+    display: flex;
+}
